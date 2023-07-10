@@ -1,0 +1,428 @@
+{
+  "name": "LUTI Component - CAMKOX and London",
+  "description": "Land-Use Transport-Interaction (LUTI) Model (CAMKOX and London).",
+  "modelId": "demo",
+  "versions": [
+    {
+      "versionId": "v1",
+      "versionTopicName" : "luti-CAMKOX_LON-v1",
+      "versionName": "LUTI CAMKOX LON Version 1",
+      "versionDescription": "Luti (CAMKOX & LON) version of July 2023",
+      "dockerContainerName": "luti-camkox_lon-v1"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "file",
+      "key": "DataCensusTS007",
+      "label": "Population (England and Wales)",
+      "description": "Census data (England and Wales): population per MSOA zone.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "CAMKOXMsoaFile",
+      "label": "CAMKOX & London MSOAs",
+      "description": "List of MSOA zones in CAMKOX & London.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "ZonesCoordinates",
+      "label": "Zones coordinates",
+      "description": "List of MSOA zones coordinates in CAMKOX & London.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "QUANTCijRoadMinFilename",
+      "label": "Cost matrix - roads",
+      "description": "Roads cost matrix from QUANT (travel times in minutes).",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "QUANTCijBusMinFilename",
+      "label": "Cost matrix - bus",
+      "description": "Bus cost matrix from QUANT (travel times in minutes).",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "QUANTCijRailMinFilename",
+      "label": "Cost matrix - rail",
+      "description": "Rail cost matrix from QUANT (travel times in minutes).",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "SObsRoadFilename",
+      "label": "Observed flows - roads",
+      "description": "Observed flows from QUANT (roads).",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "SObsBusFilename",
+      "label": "Observed flows - bus",
+      "description": "Observed flows from QUANT (bus).",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "SObsRailFilename",
+      "label": "Observed flows - rail",
+      "description": "Observed flows from QUANT (rail).",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "CAMKOXNewHousingDev",
+      "label": "CAMKOX new housing developments",
+      "description": "This file contains the table of new housing developments in CAMKOX.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "Employment2021",
+      "label": "Employment data 2021",
+      "description": "This file contains the employment data by sector and by MSOA zone for 2021.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "Employment2050",
+      "label": "Employment data 2050",
+      "description": "This file contains the employment data by sector and by MSOA zone in CAMKOX & London for 2050.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "DwellingsCAMKOX",
+      "label": "Number of dwellings",
+      "description": "This file contains a table with the number of dwellings per zone in CAMKOX & London.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "ZonesCoordinates",
+      "label": "Zones coordinates",
+      "description": "This file contains the coordinates of the case study area zones.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "CAMKOXPostcodes",
+      "label": "CAMKOX & London Postcodes",
+      "description": "This file contains the postcodes of CAMKOX and London.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "MsoaShapefile",
+      "label": "MSOAs shapefile",
+      "description": "Shapefile containing the zoning system adopted for the case study area.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "RoadNetworkShapefile",
+      "label": "Road Network shapefile",
+      "description": "Shapefile containing the road network for the case study area.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "type": "file",
+      "key": "MSOACentroidsShapefile",
+      "label": "MSOA centroids shapefile",
+      "description": "Shapefile containing the MSOA centroids for the case study area.",
+      "required": true,
+      "value": ""
+    }
+  ],
+  "outputs": [
+    {
+      "type": "file",
+      "key": "JobsAccessibility2021",
+      "label": "Job accessibility 2021",
+      "description": "This file contains the job accessibility for 2021.",
+      "value": "jobs_accessibility_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsAccessibility2050",
+      "label": "Job accessibility 2050",
+      "description": "This file contains the job accessibility for 2050.",
+      "value": "jobs_accessibility_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "HousingAccessibility2021",
+      "label": "Housing accessibility 2021",
+      "description": "This file contains the housing accessibility for 2021.",
+      "value": "housing_accessibility_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "HousingAccessibility2050",
+      "label": "Housing accessibility 2050",
+      "description": "This file contains the housing accessibility for 2050.",
+      "value": "housing_accessibility_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsDjOi2021",
+      "label": "JtW table 2021",
+      "description": "This table contains all the flows for all the modes of the Journey to work model together with jobs and housing accessibility for 2021.",
+      "value": "Jobs_DjOi_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsDjOi2050",
+      "label": "JtW table 2050",
+      "description": "This table contains all the flows for all the modes of the Journey to work model together with jobs and housing accessibility for 2050.",
+      "value": "Jobs_DjOi_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsProbTijRoads2021",
+      "label": "JtW flows probabilities (roads) 2021",
+      "description": "This file contains the journey to work roads flows probabilities for 2021.",
+      "value": "jobsProbTij_roads_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsProbTijBus2021",
+      "label": "JtW flows probabilities (bus) 2021",
+      "description": "This file contains the journey to work bus flows probabilities for 2021.",
+      "value": "jobsProbTij_bus_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsProbTijRail2021",
+      "label": "JtW flows probabilities (rail) 2021",
+      "description": "This file contains the journey to work rail flows probabilities for 2021.",
+      "value": "jobsProbTij_rail_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRoads2021",
+      "label": "JtW flows (roads) 2021",
+      "description": "This file contains the journey to work roads flows for 2021.",
+      "value": "jobsTij_roads_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijBus2021",
+      "label": "JtW flows (bus) 2021",
+      "description": "This file contains the journey to work bus flows for 2021.",
+      "value": "jobsTij_bus_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRail2021",
+      "label": "JtW flows (rail) 2021",
+      "description": "This file contains the journey to work rail flows for 2021.",
+      "value": "jobsTij_rail_2021.csv"
+    },
+    {
+      "type": "file",
+      "key": "ArrowsFlowsCar2021",
+      "label": "JtW flows (roads) 2021 (arrow vectors)",
+      "description": "This file contains the journey to work roads flows arrow vectors for 2021.",
+      "value": "flows_2021_car.geojson"
+    },
+    {
+      "type": "file",
+      "key": "ArrowsFlowsBus2021",
+      "label": "JtW flows (bus) 2021 (arrow vectors)",
+      "description": "This file contains the journey to work bus flows arrow vectors for 2021.",
+      "value": "flows_2021_bus.geojson"
+    },
+    {
+      "type": "file",
+      "key": "ArrowsFlowsRail2021",
+      "label": "JtW flows (rail) 2021 (arrow vectors)",
+      "description": "This file contains the journey to work rail flows arrow vectors for 2021.",
+      "value": "flows_2021_rail.geojson"
+    },
+    {
+      "type": "file",
+      "key": "JobsProbTijRoads2050",
+      "label": "JtW flows probabilities (roads) 2050",
+      "description": "This file contains the journey to work roads flows probabilities for 2050.",
+      "value": "jobsProbTij_roads_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsProbTijBus2050",
+      "label": "JtW flows probabilities (bus) 2050",
+      "description": "This file contains the journey to work bus flows probabilities for 2050.",
+      "value": "jobsProbTij_bus_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsProbTijRail2050",
+      "label": "JtW flows probabilities (rail) 2050",
+      "description": "This file contains the journey to work rail flows probabilities for 2050.",
+      "value": "jobsProbTij_rail_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRoads2050",
+      "label": "JtW flows (roads) 2050",
+      "description": "This file contains the journey to work roads flows for 2050.",
+      "value": "jobsTij_roads_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijBus2050",
+      "label": "JtW flows (bus) 2050",
+      "description": "This file contains the journey to work bus flows for 2050.",
+      "value": "jobsTij_bus_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRail2050",
+      "label": "JtW flows (rail) 2050",
+      "description": "This file contains the journey to work rail flows for 2050.",
+      "value": "jobsTij_rail_2050.csv"
+    },
+    {
+      "type": "file",
+      "key": "ArrowsFlowsCar2050",
+      "label": "JtW flows (roads) 2050 (arrow vectors)",
+      "description": "This file contains the journey to work roads flows arrow vectors for 2050.",
+      "value": "flows_2050_car.geojson"
+    },
+    {
+      "type": "file",
+      "key": "ArrowsFlowsBus2050",
+      "label": "JtW flows (bus) 2050 (arrow vectors)",
+      "description": "This file contains the journey to work bus flows arrow vectors for 2050.",
+      "value": "flows_2050_bus.geojson"
+    },
+    {
+      "type": "file",
+      "key": "ArrowsFlowsRail2050",
+      "label": "JtW flows (rail) 2050 (arrow vectors)",
+      "description": "This file contains the journey to work rail flows arrow vectors for 2050.",
+      "value": "flows_2050_rail.geojson"
+    },
+    {
+      "type": "file",
+      "key": "MapPopChange20212050",
+      "label": "Population change 2021-2050",
+      "description": "This file contains a map of the population change between 2021 and 2050.",
+      "value": "pop_change_21-50.png"
+    },
+    {
+      "type": "file",
+      "key": "MapHousingAccChange20212050Roads",
+      "label": "Housing accessibility change 2021-2050 (roads)",
+      "description": "This file contains a map of the housing accessibility (roads) change between 2021 and 2050.",
+      "value": "HA_change_21-50_roads.png"
+    },
+    {
+      "type": "file",
+      "key": "MapHousingAccChange20212050Bus",
+      "label": "Housing accessibility change 2021-2050 (bus)",
+      "description": "This file contains a map of the housing accessibility (bus) change between 2021 and 2050.",
+      "value": "HA_change_21-50_bus.png"
+    },
+    {
+      "type": "file",
+      "key": "MapHousingAccChange20212050Rail",
+      "label": "Housing accessibility change 2021-2050 (rail)",
+      "description": "This file contains a map of the housing accessibility (rail) change between 2021 and 2050.",
+      "value": "HA_change_21-50_rail.png"
+    },
+    {
+      "type": "file",
+      "key": "MapJobsAccChange20212050Roads",
+      "label": "Jobs accessibility change 2021-2050 (roads)",
+      "description": "This file contains a map of the housing accessibility (roads) change between 2021 and 2050.",
+      "value": "JA_change_21-50_roads.png"
+    },
+    {
+      "type": "file",
+      "key": "MapJobsAccChange20212050Bus",
+      "label": "Jobs accessibility change 2021-2050 (bus)",
+      "description": "This file contains a map of the housing accessibility (bus) change between 2021 and 2050.",
+      "value": "JA_change_21-50_bus.png"
+    },
+    {
+      "type": "file",
+      "key": "MapJobsAccChange20212050Rail",
+      "label": "Jobs accessibility change 2021-2050 (rail)",
+      "description": "This file contains a map of the housing accessibility (rail) change between 2021 and 2050.",
+      "value": "JA_change_21-50_rail.png"
+    },
+    {
+      "type": "file",
+      "key": "MapResultsShapefile",
+      "label": "Results shapefile",
+      "description": "This shapefile contains the results in the for of a map.",
+      "value": "CAMKOX_results.shp"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRoads2021FlowMap",
+      "label": "Flows map jobs roads 2021",
+      "description": "This shapefile contains the commuting flows map for roads 2021.",
+      "value": "JobsTijRoads2021FlowMap.png"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijBus2021FlowMap",
+      "label": "Flows map jobs bus 2021",
+      "description": "This shapefile contains the commuting flows map for bus 2021.",
+      "value": "JobsTijBus2021FlowMap.png"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRail2021FlowMap",
+      "label": "Flows map jobs rail 2021",
+      "description": "This shapefile contains the commuting flows map for rail 2021.",
+      "value": "JobsTijRail2021FlowMap.png"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRoads2050FlowMap",
+      "label": "Flows map jobs roads 2050",
+      "description": "This shapefile contains the commuting flows map for roads 2050.",
+      "value": "JobsTijRoads2050FlowMap.png"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijBus2050FlowMap",
+      "label": "Flows map jobs bus 2050",
+      "description": "This shapefile contains the commuting flows map for bus 2050.",
+      "value": "JobsTijBus2050FlowMap.png"
+    },
+    {
+      "type": "file",
+      "key": "JobsTijRail2050FlowMap",
+      "label": "Flows map jobs rail 2050",
+      "description": "This shapefile contains the commuting flows map for rail 2050.",
+      "value": "JobsTijRail2050FlowMap.png"
+    }
+  ]
+}
