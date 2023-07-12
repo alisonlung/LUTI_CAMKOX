@@ -298,49 +298,94 @@ def flows_map_creation(inputs, outputs, flows_output_keys): # Using OSM
 
     Zone_nodes = nx.read_shp(inputs["MSOACentroidsShapefileWGS84"]) # Must be in epsg:4326 (WGS84)
 
-    Case_Study_Zones = ["Oxfordshire", "Buckinghamshire", "Northamptonshire", "Milton Keynes", "Bedford", "Central Bedfordshire", "Cambridgeshire", "Peterborough", "Hertfordshire", "Greater London"]
+    Case_Study_Zones = ["Oxfordshire", "Buckinghamshire", "Northamptonshire", "Bedfordshire", "Cambridgeshire", "Hertfordshire", "Greater London"]
 
-    i = 0
-    while i < len(Case_Study_Zones):
-        X = ox.graph_from_place(Case_Study_Zones[i], network_type='drive')
-        # crs = X.graph["crs"]
-        # print('Graph CRS: ', crs)
-        # print()
+    X = ox.graph_from_place(Case_Study_Zones, network_type='drive')
+    # crs = X.graph["crs"]
+    # print('Graph CRS: ', crs)
+    # print()
 
-        # ox.plot_graph(X) # test plot
+    # ox.plot_graph(X) # test plot
 
-        X = X.to_undirected()
+    X = X.to_undirected()
 
-     # Calculate the origins and destinations for the shortest paths algorithms to be run on OSM graph
-        OD_list = calc_shortest_paths_ODs_osm(Zone_nodes, X)
+    # Calculate the origins and destinations for the shortest paths algorithms to be run on OSM graph
+    OD_list = calc_shortest_paths_ODs_osm(Zone_nodes, X)
 
-        Flows = []
+    Flows = []
 
-        for kk, flows_output_key in enumerate(flows_output_keys):
-            Flows.append(pd.read_csv(outputs[flows_output_key], header=None))
+    for kk, flows_output_key in enumerate(flows_output_keys):
+        Flows.append(pd.read_csv(outputs[flows_output_key], header=None))
 
-            # Initialise weights to 0:
-            for source, target in X.edges():
-                X[source][target][0]["Flows_" + str(kk)] = 0
+        # Initialise weights to 0:
+        for source, target in X.edges():
+            X[source][target][0]["Flows_" + str(kk)] = 0
 
-        TOT_count = len(OD_list)
-        # print(OD_list)
+    TOT_count = len(OD_list)
+    # print(OD_list)
 
-        for n, i in enumerate(OD_list):
-            print("Flows maps creation - iteration ", n+1, " of ", TOT_count)
-            sssp_paths = nx.single_source_dijkstra_path(X, i, weight='length') # single source shortest paths from i to all nodes of the network
-            for m, j in enumerate(OD_list):
-                shortest_path = sssp_paths[j] # shortest path from i to j
-                path_edges = zip(shortest_path, shortest_path[1:])  # Create edges from nodes of the shortest path
+    for n, i in enumerate(OD_list):
+        print("Flows maps creation - iteration ", n+1, " of ", TOT_count)
+        sssp_paths = nx.single_source_dijkstra_path(X, i, weight='length') # single source shortest paths from i to all nodes of the network
+        for m, j in enumerate(OD_list):
+            shortest_path = sssp_paths[j] # shortest path from i to j
+            path_edges = zip(shortest_path, shortest_path[1:])  # Create edges from nodes of the shortest path
 
-                for edge in list(path_edges):
-                    for cc in range(len(Flows)):
-                        X[edge[0]][edge[1]][0]["Flows_" + str(cc)] += Flows[cc].iloc[n, m]
+            for edge in list(path_edges):
+                for cc in range(len(Flows)):
+                    X[edge[0]][edge[1]][0]["Flows_" + str(cc)] += Flows[cc].iloc[n, m]
 
-        # save graph to shapefile
-        output_folder_path = "./Outputs-CAMKOX_LON/" + "Flows_shp"
-        ox.save_graph_shapefile(X, filepath=output_folder_path)
-        i += 1
+    # save graph to shapefile
+    output_folder_path = "./Outputs-CAMKOX_LON/" + "Flows_shp"
+    ox.save_graph_shapefile(X, filepath=output_folder_path)
+
+
+def flows_map_creation_HEAVY(inputs, outputs, flows_output_keys): # Using OSM
+
+    Zone_nodes = nx.read_shp(inputs["MSOACentroidsShapefile"]) # Must be in epsg:4326 (WGS84)
+
+    Case_Study_Zones = ["Oxfordshire", "Buckinghamshire", "Northamptonshire", "Bedfordshire", "Cambridgeshire", "Hertfordshire", "Greater London"]
+
+    X = ox.graph_from_place(Case_Study_Zones, network_type='drive')
+
+    # ox.plot_graph(X) # test plot
+
+    X = X.to_undirected()
+
+    # Calculate the origins and destinations for the shortest paths algorithms to be run on OSM graph
+    OD_list = calc_shortest_paths_ODs_osm(Zone_nodes, X)
+
+    Flows = []
+
+    for kk, flows_output_key in enumerate(flows_output_keys):
+        Flows.append(pd.read_csv(outputs[flows_output_key], header=None))
+
+        # Initialise weights to 0:
+        for source, target in X.edges():
+            X[source][target][0]["Flows_" + str(kk)] = 0
+
+    # shortest_paths_nodes = []  # List of shortest paths nodes
+    # shortest_paths_edges = []  # List of shortest paths edges
+
+    TOT_count = len(OD_list)
+
+    for n, i in enumerate(OD_list):
+        print("Flows maps creation - iteration ", n+1, " of ", TOT_count)
+        for m, j in enumerate(OD_list):
+            shortest_path = ox.shortest_path(X, i, j, weight='length', cpus=None) # cpus: if "None" use all available
+            # Save the nodes and the edges of the shortest path into two lists
+            # shortest_paths_nodes.append(shortest_path)  # Save nodes
+            path_edges = zip(shortest_path, shortest_path[1:])  # Create edges from nodes of the shortest path
+            # shortest_paths_edges.append(path_edges)  # Save edges
+
+            # Add the weight of each edge of the shortest path = flows
+            for edge in list(path_edges):
+                for cc in range(len(Flows)):
+                    X[edge[0]][edge[1]][0]["Flows_" + str(cc)] += Flows[cc].iloc[n, m]
+
+    # save graph to shapefile
+    output_folder_path = "./Outputs-CAMKOX_LON/" + "Flows_shp"
+    ox.save_graph_shapefile(X, filepath=output_folder_path)
 
 def flows_map_creation_light(inputs, outputs, flows_output_key, network_input):
     Flows = pd.read_csv(outputs[flows_output_key], header=None)

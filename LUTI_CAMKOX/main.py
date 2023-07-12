@@ -213,18 +213,15 @@ def start_main(inputs, outputs):
     # THIS FEATURE IS TURNED OFF - long run time - only for HQ flows visualisation
     create_flow_maps = True
     if create_flow_maps:
-        flows_output_keys = ["JobsTijRoads2021", "JobsTijBus2021", "JobsTijRail2021", "JobsTijRoads2050", "JobsTijBus2050", "JobsTijRail2050", "NS_JobsTijRoads2050", "NS_JobsTijBus2050", "NS_JobsTijRail2050"]
+        flows_output_keys = ["JobsTijRoads2021", "JobsTijBus2021", "JobsTijRoads2050", "JobsTijBus2050", "NS_JobsTijRoads2050", "NS_JobsTijBus2050"]
         flows_map_creation(inputs, outputs, flows_output_keys)
         
         #flows_map_creation_light(inputs, outputs, "JobsTijRoads2021", inputs["RoadNetworkShapefile"]) # 2021 Jobs Roads
         #flows_map_creation_light(inputs, outputs, "JobsTijBus2021", inputs["RoadNetworkShapefile"]) # 2021 Jobs Bus
-        #flows_map_creation_light(inputs, outputs, "JobsTijRail2021", inputs["RoadNetworkShapefile"]) # 2021 Jobs Rail
         #flows_map_creation_light(inputs, outputs, "JobsTijRoads2050", inputs["RoadNetworkShapefile"])  # 2050 Expansion Jobs Roads
         #flows_map_creation_light(inputs, outputs, "JobsTijBus2050", inputs["RoadNetworkShapefile"])  # 2050 Expansion Jobs Bus
-        #flows_map_creation_light(inputs, outputs, "JobsTijRail2050", inputs["RoadNetworkShapefile"])  # 2050 Expansion Jobs Rail
         #flows_map_creation_light(inputs, outputs, "NS_JobsTijRoads2050", inputs["RoadNetworkShapefile"])  # 2050 New Settlement Jobs Roads
         #flows_map_creation_light(inputs, outputs, "NS_JobsTijBus2050", inputs["RoadNetworkShapefile"])  # 2050 New Settlement Jobs Bus
-        #flows_map_creation_light(inputs, outputs, "NS_JobsTijRail2050", inputs["RoadNetworkShapefile"])  # 2050 New Settlement Jobs Rail
 
     # Low quality (light .png) maps:
     # flows_map_creation_light(inputs, outputs, "JobsTijRoads2021", inputs["RoadNetworkShapefile"]) # 2021 Jobs Roads
