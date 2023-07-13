@@ -298,7 +298,7 @@ def flows_map_creation(inputs, outputs, flows_output_keys): # Using OSM
 
     Zone_nodes = nx.read_shp(inputs["MSOACentroidsShapefileWGS84"]) # Must be in epsg:4326 (WGS84)
 
-    Case_Study_Zones = ["Oxfordshire", "Buckinghamshire", "Northamptonshire", "Bedfordshire", "Cambridgeshire", "Hertfordshire", "Greater London"]
+    Case_Study_Zones = ["Oxfordshire", "Buckinghamshire", "Milton Keynes", "Northamptonshire", "Bedfordshire", "Cambridgeshire", "Hertfordshire", "Greater London"]
 
     X = ox.graph_from_place(Case_Study_Zones, network_type='drive')
     # crs = X.graph["crs"]
