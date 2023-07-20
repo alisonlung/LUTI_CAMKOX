@@ -15,7 +15,7 @@ inputs["QUANTCijRailMinFilename2050"]    = "./external-data/QUANT_matrices/dis3.
 inputs["SObsRoadFilename"]           = "./external-data/QUANT_matrices/SObs_1.bin"
 inputs["SObsBusFilename"]            = "./external-data/QUANT_matrices/SObs_2.bin"
 inputs["SObsRailFilename"]           = "./external-data/QUANT_matrices/SObs_3.bin"
-inputs["CAMKOXNewHousingDev"]        = "./external-data/New_housing_dev_table.csv"
+inputs["CAMKOXNewHousingDev"]        = "./external-data/New_housing_dev_table_V2.csv"
 
 inputs["Employment2021"]             = "./external-data/Employment/CAMKOX_2021_ts063.csv"
 inputs["Employment2050"]             = "./external-data/Employment/CAMKOX_2050_occ.csv"
