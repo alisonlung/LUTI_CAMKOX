@@ -339,6 +339,50 @@ def flows_map_creation(inputs, outputs, flows_output_keys): # Using OSM
     output_folder_path = "./Outputs-CAMKOX_LON/" + "Flows_shp"
     ox.save_graph_shapefile(X, filepath=output_folder_path)
 
+def rail_flows_map_creation(inputs, outputs, flows_output_keys): # Using OSM
+
+    Zone_nodes = nx.read_shp(inputs["MSOACentroidsShapefileWGS84"]) # Must be in epsg:4326 (WGS84)
+
+    Case_Study_Zones = ["Oxfordshire", "Buckinghamshire", "City of Milton Keynes", "Northamptonshire", "Bedfordshire", "Cambridgeshire", "City of Peterborough", "Hertfordshire", "Greater London"]
+
+    X = ox.graph_from_place(Case_Study_Zones, custom_filter='["railway"~"rail|subway|light_rail|tram|narrow_gauge"]')
+    # crs = X.graph["crs"]
+    # print('Graph CRS: ', crs)
+    # print()
+
+    # ox.plot_graph(X) # test plot
+
+    X = X.to_undirected()
+
+    # Calculate the origins and destinations for the shortest paths algorithms to be run on OSM graph
+    OD_list = calc_shortest_paths_ODs_osm(Zone_nodes, X)
+
+    Flows = []
+
+    for kk, flows_output_key in enumerate(flows_output_keys):
+        Flows.append(pd.read_csv(outputs[flows_output_key], header=None))
+
+        # Initialise weights to 0:
+        for source, target in X.edges():
+            X[source][target][0]["Flows_" + str(kk)] = 0
+
+    TOT_count = len(OD_list)
+    # print(OD_list)
+
+    for n, i in enumerate(OD_list):
+        print("Flows maps creation - iteration ", n+1, " of ", TOT_count)
+        sssp_paths = nx.single_source_dijkstra_path(X, i, weight='length') # single source shortest paths from i to all nodes of the network
+        for m, j in enumerate(OD_list):
+            shortest_path = sssp_paths[j] # shortest path from i to j
+            path_edges = zip(shortest_path, shortest_path[1:])  # Create edges from nodes of the shortest path
+
+            for edge in list(path_edges):
+                for cc in range(len(Flows)):
+                    X[edge[0]][edge[1]][0]["Flows_" + str(cc)] += Flows[cc].iloc[n, m]
+
+    # save graph to shapefile
+    output_folder_path = "./Outputs-CAMKOX_LON/" + "rail_Flows_shp"
+    ox.save_graph_shapefile(X, filepath=output_folder_path)
 
 def flows_map_creation_HEAVY(inputs, outputs, flows_output_keys): # Using OSM
 
