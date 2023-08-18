@@ -3,7 +3,7 @@ analytics.py
 
 Produce analytic data for debugging and visualisation
 """
-from geojson import FeatureCollection, Feature, LineString
+from geojson import dump, FeatureCollection, Feature, GeometryCollection, LineString, MultiLineString
 from math import sqrt
 
 """

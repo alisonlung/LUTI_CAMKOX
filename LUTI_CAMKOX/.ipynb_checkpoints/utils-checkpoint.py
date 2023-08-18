@@ -7,6 +7,8 @@ Data building utilities
 import numpy as np
 import pickle
 import struct
+import csv
+
 ###############################################################################
 
 """

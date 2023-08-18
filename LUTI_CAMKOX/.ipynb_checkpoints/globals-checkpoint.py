@@ -1,7 +1,7 @@
 """
 globals.py
 
-Define globals used by model, output files are exported to model-runs
+Globals used by model
 """
 import os
 
@@ -15,6 +15,7 @@ url_QUANT_ZoneCodes = "https://liveuclac-my.sharepoint.com/:x:/g/personal/ucfnrm
 
 ########################################################################################################################
 # File names (no complete path as they might be present in more folders with the same name)
+# e.g. check that this file is in AAA folder, otherwise load it from BBB folder
 ZoneCodesFilename = 'EWS_ZoneCodes.csv'
 
 #cost matrix names
