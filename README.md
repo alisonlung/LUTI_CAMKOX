@@ -1,4 +1,4 @@
-## Impact Analysis of East West Rail and New Housing Development of Oxford-Cambridge Arc Using A Land-Use Transprot-Interaction Model
+## Impact Analysis of East West Rail and New Housing Development of Oxford-Cambridge Arc Using A Land-Use Transport-Interaction Model
 ### Repository for UCL CASA MSc Urban Spatial Science Dissertation
 Yuet Yung Lung <br />
 25 August 2023 <br />
